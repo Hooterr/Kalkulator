@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kalkulator"
         mc:Ignorable="d"
-        Title="Informacje" Height="150" Width="300" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" ResizeMode="NoResize">
+        Title="Informacje" Height="200" Width="300" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" ResizeMode="NoResize">
     <Grid>
         <Image Source="Icons/blue.png" Stretch="Fill" />
+        <TextBlock VerticalAlignment="Top" Margin="0,37,0,0" FontSize="25" Text="Kalkulator Podstawowy" HorizontalAlignment="Center" />
         <TextBlock Name="txtField1" FontSize="15" />
-        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="15" Text="&#x00A9;2017 Hooterr&#x0a;All rights reserved."
+        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="15" Text="Autor: Maksymilian 'Hooter' Lach&#x0a;All rights reserved."
                    Margin="0,0,0,3"/>
     </Grid>
 </Window>

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
 
+//autor: Maksymilian Lach
 
 namespace Kalkulator
 {
@@ -60,7 +61,6 @@ namespace Kalkulator
         private String StrVersion = version.ToString();
 
         //Events
-
         private void NumberButton_Click(object sender, RoutedEventArgs e)
         {
             string ButtonTag = string.Empty;
@@ -90,7 +90,6 @@ namespace Kalkulator
         private void Key_Down(object sender, KeyEventArgs e)
         {
             string Tag = string.Empty;
-            //MessageBox.Show(e.Key.ToString());
             if (KeyCodes.TryGetValue(e.Key.ToString(), out Tag))
             {
                 if (KeyCodes.Keys.ToList().IndexOf(e.Key.ToString()) <= 19)
@@ -101,7 +100,6 @@ namespace Kalkulator
         }
 
         //Methods
-
         private void AddKeyCodes()
         {
             KeyCodes.Add("D0", "0");
@@ -135,8 +133,7 @@ namespace Kalkulator
         }
 
         private void NumberButtonProceed(string ButtonTag)
-        {
-            //MessageBox.Show("NumberButton = " + ButtonTag);
+        { 
             if (m_eLastOperation == Operation.result || m_eLastOperation == Operation.error)
             {
                 txtDisplay.Text = ButtonTag;
@@ -168,7 +165,6 @@ namespace Kalkulator
 
         private void OperationButtonProceed(string ButtonTag)
         {
-            //MessageBox.Show("OperationButton = " + ButtonTag);
             var converter = new System.Windows.Media.BrushConverter();
             switch (ButtonTag)
             {
@@ -293,7 +289,6 @@ namespace Kalkulator
                             txtDisplayMemory.Text = txtDisplay.Text;
                             txtDisplayOperation.Text = "+";
                             b_NextValueWritten = false;
-                            //txtDisplay.Text = "0";
                             m_eLastOperation = Operation.addition;
                         }                        
                     }
@@ -312,7 +307,6 @@ namespace Kalkulator
                             txtDisplayMemory.Text = txtDisplay.Text;
                             txtDisplayOperation.Text = "-";
                             b_NextValueWritten = false;
-                            //txtDisplay.Text = "0";
                             m_eLastOperation = Operation.substraction;
                         }
                     }
@@ -331,7 +325,6 @@ namespace Kalkulator
                             txtDisplayMemory.Text = txtDisplay.Text;
                             txtDisplayOperation.Text = "/";
                             b_NextValueWritten = false;
-                            //txtDisplay.Text = "0";
                             m_eLastOperation = Operation.division;
                         }
                     }
@@ -349,7 +342,6 @@ namespace Kalkulator
                             txtDisplayMemory.Text = txtDisplay.Text;
                             txtDisplayOperation.Text = "*";
                             b_NextValueWritten = false; 
-                            //txtDisplay.Text = "0";
                             m_eLastOperation = Operation.multiplication;
                         }
                     }
@@ -390,7 +382,7 @@ namespace Kalkulator
                     txtDisplay.Text = "Result does not exist";
                     break;
                 default:
-                    MessageBox.Show("Unknown error occurred!\nPlease contact developer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Unknow error occurred!\nPlease contact developer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
             }
             txtDisplayMemory.Text = String.Empty;
@@ -415,240 +407,3 @@ namespace Kalkulator
         }
     }
 }
-/*
-    public partial class MainWindow : Window
-    {
-
-        private Operation m_eLastOperationSelected = Operation.none;
-        private Error m_eError = Error.none;
-        private String strMemory = default(String);
-
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-
-        private void ErrorProceed()
-        {
-            switch (m_eError)
-            {
-                case Error.divisionby0:
-                    txtDisplay.Text = "Cannot divide by 0";
-                    break;
-                case Error.badroot:
-                    txtDisplay.Text = "Result does not exist";
-                    break;
-                default:
-                    MessageBox.Show("Unknow error occurred!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    break;
-            }
-            txtDisplayMemory.Text = String.Empty;
-            txtDisplayOperation.Text = String.Empty;
-            m_eLastOperationSelected = Operation.error;
-            m_eError = Error.none;
-        }
-
-        private void NumberButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (Operation.error == m_eLastOperationSelected)
-            {
-                txtDisplay.Text = String.Empty;
-                m_eLastOperationSelected = Operation.none;
-            }
-            if (Operation.result == m_eLastOperationSelected)
-            {
-             txtDisplay.Text = string.Empty;
-             m_eLastOperationSelected = Operation.none;
-             }
-             Button oButton = (Button)sender;
-             txtDisplay.Text += oButton.Content;
-        }
-
-        private void CommaButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (Operation.error != m_eLastOperationSelected)
-            {
-                if (Operation.result == m_eLastOperationSelected)
-                {
-                    txtDisplay.Text = string.Empty;
-                    m_eLastOperationSelected = Operation.none;
-                }
-                if ((txtDisplay.Text.Contains(",")) || (0 == txtDisplay.Text.Length))
-                {
-                    return;
-                }
-                txtDisplay.Text += ",";
-            }
-        }
-
-        private void AdditiveInverseButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (Operation.error != m_eLastOperationSelected)
-            {
-                if (!String.IsNullOrEmpty(txtDisplay.Text))
-                    txtDisplay.Text = (double.Parse(txtDisplay.Text) * (-1)).ToString();
-            }
-        }
-
-        private void EraseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Button oButton = (Button)sender;
-            if (oButton.Content.ToString() == "C")
-            {
-                txtDisplay.Text = string.Empty;
-                txtDisplayMemory.Text = string.Empty;
-                txtDisplayOperation.Text = string.Empty;
-                m_eLastOperationSelected = Operation.none;
-            }
-            else if(oButton.Content.ToString() == "CE")
-            {
-                txtDisplay.Text = string.Empty;
-                m_eLastOperationSelected = Operation.none;
-            }
-        }
-
-        private void MemoryButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (Operation.error != m_eLastOperationSelected)
-            {
-                Button oButton = (Button)sender;
-                var converter = new System.Windows.Media.BrushConverter();
-                switch (oButton.Tag.ToString())
-                {
-                    case "MrcButtonTag":
-                        if (!String.IsNullOrEmpty(strMemory))
-                            txtDisplay.Text = strMemory;
-                        break;
-                    case "M+ButtonTag":
-                        if (!String.IsNullOrEmpty(txtDisplay.Text))
-                        {
-                            strMemory = txtDisplay.Text;
-                            MrcButton.Background = (Brush)converter.ConvertFromString("#FF4EF03E");
-                        }
-                        break;
-                    case "M-ButtonTag":
-                        MrcButton.Background = (Brush)converter.ConvertFromString("#FFDDDDDD");
-                        break;
-                }
-            }
-        }
-
-        private void ClearUnnecessaryZeros()
-        {
-            txtDisplay.Text = double.Parse(txtDisplay.Text).ToString();
-        }
-
-        private void OperationButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (Operation.error == m_eLastOperationSelected)
-            {
-                return;
-            }
-            else if (((Operation.none != m_eLastOperationSelected) || (Operation.result != m_eLastOperationSelected))
-                && !String.IsNullOrEmpty(txtDisplay.Text.ToString()))
-            {
-                ResultButton_Click(sender, e);
-            }
-            string Tag = String.Empty;
-            try
-            {
-                Button oButton = (Button)sender;
-                Tag = oButton.Tag.ToString();
-            }
-            catch
-            {
-                var oButton = (CustomButton)sender;
-                Tag = oButton.Tag.ToString();
-            }
-            if (Operation.error == m_eLastOperationSelected)
-                return;
-            switch (Tag)
-            {
-                case "AdditionBtnTag":
-                    m_eLastOperationSelected = Operation.addition;
-                    txtDisplayOperation.Text = "+";
-                    break;
-                case "SubstractionBtnTag":
-                    m_eLastOperationSelected = Operation.substraction;
-                    txtDisplayOperation.Text = "-";
-                    break;
-                case "MultiplicationBtnTag":
-                    m_eLastOperationSelected = Operation.multiplication;
-                    txtDisplayOperation.Text = "*";
-                    break;
-                case "DivisionBtnTag":
-                    m_eLastOperationSelected = Operation.division;
-                    txtDisplayOperation.Text = "/";
-                    break;
-                case "SquareRootBtnTag":
-                    m_eLastOperationSelected = Operation.extrationofaroot;
-                    txtDisplayOperation.Text = String.Empty;
-                    ResultButton_Click(sender, e);
-                    return;
-                default:
-                    MessageBox.Show("Nieznana operacja!", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-            }
-            if (txtDisplay.Text != string.Empty)
-            {
-                ClearUnnecessaryZeros();
-                txtDisplayMemory.Text = txtDisplay.Text;
-                txtDisplay.Text = string.Empty;
-            }
-        }
-
-        private void ResultButton_Click(object sender, RoutedEventArgs e)
-        {
-            if ((Operation.result == m_eLastOperationSelected) || (Operation.none == m_eLastOperationSelected) || Operation.error == m_eLastOperationSelected)
-            {
-                return;
-            }
-            if (string.IsNullOrEmpty(txtDisplay.Text) && m_eLastOperationSelected != Operation.extrationofaroot)
-            {
-                return;
-                //txtDisplay.Text = "0";
-            }
-            switch (m_eLastOperationSelected)
-            {
-                case Operation.addition:
-                    txtDisplay.Text = (double.Parse(txtDisplayMemory.Text) + double.Parse(txtDisplay.Text)).ToString();
-                    break;
-                case Operation.substraction:
-                    txtDisplay.Text = (double.Parse(txtDisplayMemory.Text) - double.Parse(txtDisplay.Text)).ToString();
-                    break;
-                case Operation.multiplication:
-                    txtDisplay.Text = (double.Parse(txtDisplayMemory.Text) * double.Parse(txtDisplay.Text)).ToString();
-                    break;
-                case Operation.division:
-                    if(double.Parse(txtDisplay.Text) == 0)
-                    {
-                        m_eError = Error.divisionby0;
-                        ErrorProceed();
-                        return;
-                    }
-                    txtDisplay.Text = (double.Parse(txtDisplayMemory.Text) / double.Parse(txtDisplay.Text)).ToString();
-                    break;
-                case Operation.extrationofaroot:
-                    double NumberToRoot = 0;
-                    if(txtDisplay.Text.ToString() == String.Empty)
-                    {
-                        if (txtDisplayMemory.Text.ToString() == String.Empty)
-                            return;
-                        NumberToRoot = double.Parse(txtDisplayMemory.Text.ToString());
-                    }
-                    if(NumberToRoot < 0)
-                    {
-                        m_eError = Error.badroot;
-                        ErrorProceed();
-                        return;
-                    }
-                    txtDisplay.Text = Math.Sqrt(NumberToRoot).ToString();
-                    break;
-            }
-            m_eLastOperationSelected = Operation.result;
-            txtDisplayOperation.Text = string.Empty;
-            txtDisplayOperation.Text = string.Empty;
-            txtDisplayMemory.Text = string.Empty;
-        }
-    }
-}*/

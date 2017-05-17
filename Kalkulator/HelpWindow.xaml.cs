@@ -24,7 +24,7 @@ namespace Kalkulator
         public HelpWindow(String StrVersion)
         {
             InitializeComponent();
-            txtField1.Text = "Kalkulator\nVersja: " + StrVersion;
+            txtField1.Text = "Versja: " + StrVersion;
         }
     }
 }
