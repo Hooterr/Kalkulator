@@ -9,7 +9,7 @@
     <Grid>
         <Image Source="Icons/blue.png" Stretch="Fill" />
         <TextBlock Name="txtField1" FontSize="15" />
-        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="15" Text="&#x00A9;2017 Hooterr Corporation.&#x0a;All rights reserved."
+        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="15" Text="&#x00A9;2017 Hooterr&#x0a;All rights reserved."
                    Margin="0,0,0,3"/>
     </Grid>
 </Window>
