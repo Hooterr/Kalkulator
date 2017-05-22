@@ -149,7 +149,7 @@ namespace Kalkulator
                 }
                 else
                 {
-                    if (txtDisplayMemory.Text == txtDisplay.Text)
+                    if (txtDisplayMemory.Text == txtDisplay.Text && !b_NextValueWritten)
                     {
                         txtDisplay.Text = ButtonTag;
                         b_NextValueWritten = true;
@@ -261,13 +261,20 @@ namespace Kalkulator
                                 break;
 
                             case Operation.squareroot:
-                                if (double.Parse(txtDisplay.Text) < 0)
+                                double number;
+                                if (!double.TryParse(txtDisplay.Text, out number))
                                 {
                                     m_eError = Error.badroot;
                                     ErrorProceed();
                                     return;
                                 }
-                                txtDisplay.Text = Math.Sqrt(double.Parse(txtDisplay.Text)).ToString();
+                                if (Math.Sqrt(number).ToString() == "NaN")
+                                {
+                                    m_eError = Error.badroot;
+                                    ErrorProceed();
+                                }
+                                else
+                                    txtDisplay.Text = Math.Sqrt(number).ToString();
                                 break;
                         }
                         txtDisplayMemory.Text = String.Empty;

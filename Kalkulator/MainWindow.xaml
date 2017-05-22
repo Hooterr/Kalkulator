@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         KeyDown="Key_Down"
         Title="Kalkulator" Height="350" Width="250" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
-        WindowStyle="None" AllowsTransparency="True" BorderBrush="CornflowerBlue" BorderThickness="2" Focusable="False">
+        WindowStyle="None" AllowsTransparency="True" BorderBrush="CornflowerBlue" BorderThickness="2" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
@@ -28,11 +28,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left" 
-                    VerticalAlignment="Top" MouseLeftButtonDown="Mouse_MouseLeftButtonDown">
+                    VerticalAlignment="Top" MouseLeftButtonDown="Mouse_MouseLeftButtonDown" Focusable="False">
             <Image Source="Icons/icon.ico" Margin="4" Grid.Row="0" />
-            <TextBlock FontSize="13" VerticalAlignment="Center">
-                Kalkulator                                    
-            </TextBlock>
+            <TextBlock FontSize="13" VerticalAlignment="Center" Text="Kalkulator"/>
             <Label Width="170" Focusable="False"/>
         </StackPanel>
         <StackPanel x:Name="Mouse" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right" 
