@@ -24,7 +24,7 @@ namespace Kalkulator
         none = 0,
 
         /// <summary>
-        /// An error has ocoured
+        /// An error has occured
         /// </summary>
         error,
 
