@@ -6,8 +6,12 @@
              xmlns:local="clr-namespace:Kalkulator"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Name="txtMonitor">
+    <!-- Custom Display -->    
     <Border Style="{StaticResource MonitorBorderTheme}">
+        
+        <!-- Only text block here -->
         <TextBlock Style="{StaticResource MonitorTheme}" Text="{Binding Text, ElementName=txtMonitor}"
         TextAlignment="{Binding TextAlignment, ElementName=txtMonitor}" Focusable="False"/>
+        
     </Border>
 </UserControl>

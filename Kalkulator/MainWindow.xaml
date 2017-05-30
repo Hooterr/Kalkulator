@@ -9,6 +9,8 @@
         KeyDown="Key_Down"
         Title="Kalkulator" Height="350" Width="250" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
         WindowStyle="None" AllowsTransparency="True" BorderBrush="CornflowerBlue" BorderThickness="2" >
+    
+    <!-- The main grid --> <!-- -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
@@ -27,42 +29,51 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
+        <!-- Custom bar at the top, propably could have been done better -->
         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left" 
                     VerticalAlignment="Top" MouseLeftButtonDown="Mouse_MouseLeftButtonDown" Focusable="False">
+            
+            <!-- Program's logo -->
             <Image Source="Icons/icon.ico" Margin="4" Grid.Row="0" />
+            
+            <!-- Program's name-->
             <TextBlock FontSize="13" VerticalAlignment="Center" Text="Kalkulator"/>
+            
+            <!-- Rest of the bar -->
             <Label Width="170" Focusable="False"/>
+            
         </StackPanel>
+        
+        <!-- Stack Pannel with two Buttons -->
         <StackPanel x:Name="Mouse" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right" 
                     VerticalAlignment="Top" MouseLeftButtonDown="Mouse_MouseLeftButtonDown">
+            
+            <!-- The help Button -->
             <Button Background="Transparent" ToolTip="O programie" BorderThickness="0" Height="25" Width="25" Click="HelpButton_Click"
                      Focusable="False">
                 <Image Source="Icons/info.png" Height="16" Width="16"/>
             </Button>
+            
+            <!-- The exit Button -->
             <Button Background="Transparent" ToolTip="Zamknij" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" Height="25" Width="25" Click="CloseButton_Click"
                     Focusable="False">
                 <Image Source="Icons/exit.png" Height="16" Width="16" />
             </Button>
+            
         </StackPanel>
+        
+        <!-- Custom Control for displaying memory -->
         <my:Monitor Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" x:Name="txtDisplayMemory" 
                     TextAlignment="Right" Margin="5"/>
+        <!-- Displays the current operation -->
         <my:Monitor Grid.Column="5" Grid.Row="1" x:Name="txtDisplayOperation" 
                     TextAlignment="Center" Margin="5"/>
+        <!-- Main monitor -->
         <my:Monitor Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5" x:Name="txtDisplay" 
                     TextAlignment="Right" Margin="5"/>
 
-        <Button Content="MRC" Grid.Row="3" Grid.Column="0" Margin="5" Click="OperationButton_Click"
-                Name="MrcButton" Tag="MrcBtnTag" Focusable="False"/>
-        <Button Content="M-" Grid.Row="3" Grid.Column="1" Margin="5" Click="OperationButton_Click" 
-                Tag="MMBtnTag" Focusable="False"/>
-        <Button Content="M+" Grid.Row="3" Grid.Column="2" Margin="5" Click="OperationButton_Click" 
-                Tag="MPBtnTag" Focusable="False"/>
-        <my:CustomButton Grid.Row="4" Grid.Column="3" Margin="5" ImageSource="Icons/square-root.png"
-                         Click="OperationButton_Click" Tag="SquareRootBtnTag"/>
-        <Button Content="CE" Grid.Row="4" Grid.Column="4" Margin="5" ToolTip="Wyszyść linię" Tag="CEBtnTag"
-                Click="OperationButton_Click" Focusable="False"/>
-        <my:CustomButton Grid.Row="3" Grid.Column="3" Margin="5" Click="OperationButton_Click" ImageSource="Icons/erase.png"
-                         Tag="EraseBtnTag" />
+        <!-- Number Buttons -->
         <Button Content="7" Grid.Row="4" Grid.Column="0" Margin="5" Click="NumberButton_Click" Tag="7" Focusable="False"/>
         <Button Content="8" Grid.Row="4" Grid.Column="1" Margin="5" Click="NumberButton_Click" Tag="8" Focusable="False"/>
         <Button Content="9" Grid.Row="4" Grid.Column="2" Margin="5" Click="NumberButton_Click" Tag="9" Focusable="False"/>
@@ -73,18 +84,57 @@
         <Button Content="2" Grid.Row="6" Grid.Column="1" Margin="5" Click="NumberButton_Click" Tag="2" Focusable="False"/>
         <Button Content="3" Grid.Row="6" Grid.Column="2" Margin="5" Click="NumberButton_Click" Tag="3" Focusable="False"/>
         <Button Content="0" Grid.Row="7" Grid.Column="0" Margin="5" Click="NumberButton_Click" Tag="0" Focusable="False"/>
+        
+        <!-- Memory Buttons -->
+        <Button Content="MRC" Grid.Row="3" Grid.Column="0" Margin="5" Click="OperationButton_Click"
+                Name="MrcButton" Tag="MrcBtnTag" Focusable="False"/>
+        <Button Content="M-" Grid.Row="3" Grid.Column="1" Margin="5" Click="OperationButton_Click" 
+                Tag="MMBtnTag" Focusable="False"/>
+        <Button Content="M+" Grid.Row="3" Grid.Column="2" Margin="5" Click="OperationButton_Click" 
+                Tag="MPBtnTag" Focusable="False"/>
+        
+        <!-- Operation Buttons -->
+
+        <!-- Backspace Button -->
+        <my:CustomButton Grid.Row="3" Grid.Column="3" Margin="5" Click="OperationButton_Click" ImageSource="Icons/erase.png"
+                         Tag="EraseBtnTag" />
+        
+        <!-- Clear Button -->
         <Button Content="C" Grid.Row="3" Grid.Column="4" Margin="5" Click="OperationButton_Click" 
                 ToolTip="Wyczyść wszystko" Tag="CBtnTag" Focusable="False"/>
-        <Button Content="*" Grid.Row="6" Grid.Column="4" Margin="5" Click="OperationButton_Click" 
-                Tag="MultiplicationBtnTag" Focusable="False"/>
-        <Button Content="/" Grid.Row="5" Grid.Column="4" Margin="5" Click="OperationButton_Click" 
-                Tag="DivisionBtnTag" Focusable="False"/>
+        
+        <!-- Square root Button -->
+        <my:CustomButton Grid.Row="4" Grid.Column="3" Margin="5" ImageSource="Icons/square-root.png"
+                         Click="OperationButton_Click" Tag="SquareRootBtnTag"/>
+
+        <!-- Clears entire calculator -->
+        <Button Content="CE" Grid.Row="4" Grid.Column="4" Margin="5" ToolTip="Wyszyść linię" Tag="CEBtnTag"
+                Click="OperationButton_Click" Focusable="False"/>
+
+        <!-- Minus Button -->
         <Button Content="-" Grid.Row="5" Grid.Column="3" Margin="5" Click="OperationButton_Click" 
                 Tag="SubstractionBtnTag" Focusable="False"/>
+
+        <!-- Divide Button-->
+        <Button Content="/" Grid.Row="5" Grid.Column="4" Margin="5" Click="OperationButton_Click" 
+                Tag="DivisionBtnTag" Focusable="False"/>
+
+        <!-- Plus Button -->
         <Button Content="+" Grid.Row="6" Grid.Column="3" Grid.RowSpan="2" Margin="5" 
                 Tag="AdditionBtnTag" Click="OperationButton_Click" Focusable="False"/>
-        <Button Content="=" Grid.Row="7" Grid.Column="4" Margin="5" Click="OperationButton_Click" Tag="ResultBtnTag" Focusable="False"/>
-        <Button Content="," Grid.Row="7" Grid.Column="2" Margin="5" Click="OperationButton_Click" Tag="CommaBtnTag" Focusable="False"/>
+
+        <!-- Multiply Button -->
+        <Button Content="*" Grid.Row="6" Grid.Column="4" Margin="5" Click="OperationButton_Click" 
+                Tag="MultiplicationBtnTag" Focusable="False"/>
+
+        <!-- Change sign Button-->
         <Button Content="+/-" Grid.Row="7" Grid.Column="1" Margin="5" Click="OperationButton_Click" Tag="NegateBtnTag" Focusable="False"/>
+
+        <!-- Dot Button -->
+        <Button Content="," Grid.Row="7" Grid.Column="2" Margin="5" Click="OperationButton_Click" Tag="CommaBtnTag" Focusable="False"/>
+
+        <!-- Result Button -->
+        <Button Content="=" Grid.Row="7" Grid.Column="4" Margin="5" Click="OperationButton_Click" Tag="ResultBtnTag" Focusable="False"/>
+
     </Grid>
 </Window>

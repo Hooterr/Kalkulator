@@ -1,4 +1,5 @@
-﻿<Window x:Class="Kalkulator.HelpWindow"
+﻿    <!-- Help window -->
+    <Window x:Class="Kalkulator.HelpWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,10 +7,19 @@
         xmlns:local="clr-namespace:Kalkulator"
         mc:Ignorable="d"
         Title="Informacje" Height="200" Width="300" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" ResizeMode="NoResize">
+   
+    <!-- Main grid -->    
     <Grid>
+        <!-- Fill the entire screen with some blue gradient -->
         <Image Source="Icons/blue.png" Stretch="Fill" />
+        
+        <!-- Tittle -->
         <TextBlock VerticalAlignment="Top" Margin="0,37,0,0" FontSize="25" Text="Kalkulator Podstawowy" HorizontalAlignment="Center" />
+        
+        <!-- Displays the program's version -->
         <TextBlock Name="txtField1" FontSize="15" />
+        
+        <!-- Author-->
         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="15" Text="Autor: Maksymilian 'Hooter' Lach&#x0a;All rights reserved."
                    Margin="0,0,0,3"/>
     </Grid>

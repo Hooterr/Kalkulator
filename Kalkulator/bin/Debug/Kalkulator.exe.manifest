@@ -4,7 +4,7 @@
   <description asmv2:iconFile="Icons/icon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Kalkulator" version="1.1.6359.31012" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Kalkulator" version="1.1.6359.37861" language="neutral" processorArchitecture="msil" />
     <commandLine file="Kalkulator.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Kalkulator.exe" size="545248">
-      <assemblyIdentity name="Kalkulator" version="1.1.6359.31012" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Kalkulator.exe" size="377824">
+      <assemblyIdentity name="Kalkulator" version="1.1.6359.37861" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>GHYPOMzw8hHuKUXwhIFvlvH238IyOEkHvzXgRvfSAOg=</dsig:DigestValue>
+        <dsig:DigestValue>NCEJfgKRcKI5z3coaXIo1wIyiJ+9ODj9nMUkOtMUFXI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Reflection;
 
-//autor: Maksymilian Lach
+
+//Author: Maksymilian Lach
 
 namespace Kalkulator
 {
@@ -138,9 +131,6 @@ namespace Kalkulator
         /// Stores if the next value is written by the user or automatically added by program
         /// </summary>
         private bool b_NextValueWritten = false;
-        /*
-         * 
-         */
 
         #region Getting Program Version
 
@@ -239,7 +229,43 @@ namespace Kalkulator
                 return;
         }
 
-        #endregion
+
+        /// <summary>
+        /// Gets called when the user wants to drag and move the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Mouse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        /// <summary>
+        /// Gets called when the close button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Close the entire appliaction
+            Application.Current.Shutdown();
+        }
+
+        /// <summary>
+        /// Get called when the help button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create a new window, pass program version to the constructor
+            HelpWindow subWindow = new HelpWindow(StrVersion);
+
+            // Show the window
+            subWindow.Show();
+        }
+
+#endregion
 
         #region Private Methods
 
@@ -537,14 +563,16 @@ namespace Kalkulator
                             case Operation.squareroot:
 
                                 // The number in the display
-                                double number = double.Parse(txtDisplayMemory.Text);
+                                double number;
 
-                                /*if (!double.TryParse(txtDisplay.Text, out number))
+                                // Try to parse...
+                                if (!double.TryParse(txtDisplay.Text, out number))
                                 {
+                                    // Set error and return
                                     m_eError = Error.badroot;
                                     ErrorProceed();
                                     return;
-                                }*/
+                                }
 
                                 // If the result is an error
                                 if (Math.Sqrt(number).ToString() == "NaN") // Don't know if it's a better way to chceck it
@@ -589,24 +617,12 @@ namespace Kalkulator
                             // Calls itself to perform previous operation
                             OperationButtonProceed("ResultBtnTag");
                         }
-                        
-                        // Unless we didnt get any error in the previous operation
+
+                        // Unless we got no error in the previous operation
                         if (m_eLastOperation != Operation.error)
                         {
-                            // Clear useless zeros before putting this value to the memory monitor
-                            ClearUnnecessaryZeros();
-
-                            // Set the memory monitor value
-                            txtDisplayMemory.Text = txtDisplay.Text;
-
-                            // Set appropriate symbol to the operation monitor
-                            txtDisplayOperation.Text = "+";
-                            
-                            // Set the helper variable to false, because we leave the number in the main monitor
-                            b_NextValueWritten = false;
-
-                            // Set the appropriate program status
-                            m_eLastOperation = Operation.addition;
+                            // Call the method that cleans the screen and sets program status
+                            CleanUp(Operation.addition, "+");
                         }                        
                     }
                     break;
@@ -626,74 +642,87 @@ namespace Kalkulator
                             OperationButtonProceed("ResultBtnTag");
                         }
 
-                        // Unless we didnt get any error in the previous operation
+                        // Unless we got no error in the previous operation
                         if (m_eLastOperation != Operation.error)
                         {
 
-                            // Clear useless zeros before putting this value to the memory monitor
-                            ClearUnnecessaryZeros();
-
-                            // Set the memory monitor value
-                            txtDisplayMemory.Text = txtDisplay.Text;
-
-                            // Set appropriate symbol to the operation monitor
-                            txtDisplayOperation.Text = "-";
-
-                            // Set the helper variable to false, because we leave the number in the main monitor
-                            b_NextValueWritten = false;
-
-                            // Set the appropriate program status
-                            m_eLastOperation = Operation.substraction;
+                            // Call the method that cleans the screen and sets program status
+                            CleanUp(Operation.substraction, "-");
                         }
                     }
                     break;
 
+                // Division
                 case "DivisionBtnTag":
+
+                    // If the last operation was not an error and [next value written by the user or last operation 
+                    // is not the same as the one we want to do now]...
                     if (m_eLastOperation != Operation.error && (b_NextValueWritten || m_eLastOperation != Operation.division))
                     {
+
+                        // If [the last operation is not printing result and not printing result] and next value is written by the user...
                         if ((m_eLastOperation != Operation.result || m_eLastOperation != Operation.none) && b_NextValueWritten)
                         {
+                            // Calls itself to perform previous operation
                             OperationButtonProceed("ResultBtnTag");
                         }
+
+                        // Unless we got no error in the previous operation
                         if (m_eLastOperation != Operation.error)
                         {
-                            ClearUnnecessaryZeros();
-                            txtDisplayMemory.Text = txtDisplay.Text;
-                            txtDisplayOperation.Text = "/";
-                            b_NextValueWritten = false;
-                            m_eLastOperation = Operation.division;
-                        }
-                    }
-                    break;
-                case "MultiplicationBtnTag":
-                    if (m_eLastOperation != Operation.error && (b_NextValueWritten || m_eLastOperation != Operation.multiplication))
-                    {
-                        if ((m_eLastOperation != Operation.result || m_eLastOperation != Operation.none) && b_NextValueWritten)
-                        {
-                            OperationButtonProceed("ResultBtnTag");
-                        }
-                        if (m_eLastOperation != Operation.error)
-                        {
-                            ClearUnnecessaryZeros();
-                            txtDisplayMemory.Text = txtDisplay.Text;
-                            txtDisplayOperation.Text = "*";
-                            b_NextValueWritten = false; 
-                            m_eLastOperation = Operation.multiplication;
+                            // Call the method that cleans the screen and sets program status
+                            CleanUp(Operation.division, "/");
                         }
                     }
                     break;
 
-                case "SquareRootBtnTag":
-                    if (m_eLastOperation != Operation.error)
+                // Multiplication
+                case "MultiplicationBtnTag":
+
+                    // If the last operation was not an error and [next value written by the user or last operation 
+                    // is not the same as the one we want to do now]...
+                    if (m_eLastOperation != Operation.error && (b_NextValueWritten || m_eLastOperation != Operation.multiplication))
                     {
-                        if (m_eLastOperation != Operation.result || m_eLastOperation != Operation.none)
+
+                        // If [the last operation is not printing result and not printing result] and next value is written by the user...
+                        if ((m_eLastOperation != Operation.result || m_eLastOperation != Operation.none) && b_NextValueWritten)
                         {
+                            // Calls itself to perform previous operation
                             OperationButtonProceed("ResultBtnTag");
                         }
+
+                        // Unless we got no error in the previous operation
+                        if (m_eLastOperation != Operation.error)
+                        {
+                            // Call the method that cleans the screen and sets program status
+                            CleanUp(Operation.multiplication, "*");
+                        }
+                    }
+                    break;
+
+                // SquareRoot
+                case "SquareRootBtnTag":
+
+                    // If the last operation was not an error and [next value written by the user or last operation 
+                    // is not the same as the one we want to do now]...
+                    if (m_eLastOperation != Operation.error)
+                    {
+                        // If [the last operation is not printing result and not printing result] and next value is written by the user...
+                        if (m_eLastOperation != Operation.result || m_eLastOperation != Operation.none)
+                        {
+                            // Calls itself to perform previous operation
+                            OperationButtonProceed("ResultBtnTag");
+                        }
+                        
+                        // Set the operation to square root...
                         m_eLastOperation = Operation.squareroot;
+
+                        // And than calls itself again to print the result
                         OperationButtonProceed("ResultBtnTag");
                     }
                     break;
+
+                // Progm should never get here, bu just in case
                 default:
                     MessageBox.Show("Fatal Error", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
@@ -703,48 +732,78 @@ namespace Kalkulator
         }
 
         #endregion 
-        
+
+        /// <summary>
+        /// Cleans up and sets program status
+        /// </summary>
+        /// <param name="operation">Operation type</param>
+        /// <param name="operationSign">Sign of the operation</param>
+        private void CleanUp(Operation operation, string operationSign)
+        {
+            // Clear useless zeros before putting this value to the memory monitor
+            ClearUnnecessaryZeros();
+
+            // Set the memory monitor value
+            txtDisplayMemory.Text = txtDisplay.Text;
+
+            // Set the helper variable to false, because we leave the number in the main monitor
+            b_NextValueWritten = false;
+           
+            // Set appropriate symbol to the operation monitor
+            txtDisplayOperation.Text = operationSign;
+
+            // Set the appropriate program status
+            m_eLastOperation = operation;
+        }
+
+        /// <summary>
+        /// Cleans the unnecessary stuff (e.g. 001.2300 -> 1.23)
+        /// </summary>
         private void ClearUnnecessaryZeros()
         {
             txtDisplay.Text = double.Parse(txtDisplay.Text).ToString();
         }
 
+        /// <summary>
+        /// Handles all errors
+        /// </summary>
         private void ErrorProceed()
         {
             switch (m_eError)
             {
+                // Division by 0 error
                 case Error.divisionby0:
-                    txtDisplay.Text = "Cannot divide by 0";
 
+                    // Show user the information
+                    txtDisplay.Text = "Cannot divide by 0";
                     break;
+                
+                // Root from a negative number error
                 case Error.badroot:
+
+                    // Show user the information
                     txtDisplay.Text = "Result does not exist";
                     break;
+
+                // Should never get here,
                 default:
-                    MessageBox.Show("Unknow error occurred!\nPlease contact developer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Unknown error occurred!\nPlease contact developer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
             }
+
+            // Clear the memory monitor
             txtDisplayMemory.Text = String.Empty;
+
+            // Clear the operation monitor
             txtDisplayOperation.Text = String.Empty;
+
+            // Set the last operation to error
             m_eLastOperation = Operation.error;
+
+            // Set the last error to none
             m_eError = Error.none;
         }
-
-        private void Mouse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-        private void HelpButton_Click(object sender, RoutedEventArgs e)
-        {
-            HelpWindow subWindow = new HelpWindow(StrVersion);
-            subWindow.Show();
-        }
+        
         #endregion
-
     }
 }
